@@ -1,0 +1,59 @@
+
+
+
+<div class="container mt-4">
+<!-- Flexbox for demo purpose -->
+<div class="d-flex ">
+
+  <!-- Element on the left -->
+  <div class="px-4 ">
+    <h3>Room: </h3>
+    <hr class="hr" />
+    <h4>{{room? room.name : ''}}</h4>
+    <div style="margin-top: 10rem;"></div>
+      <h3>Description:</h3>
+      <hr class="hr" />
+  
+      <h4>{{room? room.description : ''}}</h4>
+  </div>
+
+  <!-- Vertical divider -->
+  <div class="vr" style="height: 60vh"></div>
+
+  <!-- Element on the left -->
+  <div class="px-4 flex-grow-1">
+    <div *ngFor="let msg of messages" class="card mt-4">
+      <div class="card-body">{{msg.from_user_username}} 
+        <hr >
+        {{msg.content}}</div>
+        <hr> 
+        <p style="text-align: center;">{{msg.created_at}}</p>
+    </div>
+
+
+  
+
+  </div>
+ 
+ 
+</div>
+
+
+
+
+</div>
+
+<div class="container">
+
+  <button type="button"  *ngIf="join_room" class="btn btn-primary" (click)="joinRoom()" >Join This Room</button>
+
+  <button type="button"  *ngIf="!join_room" disabled  class="btn btn-success" style="color: white;" >You are joined!</button>
+
+  <div  *ngIf="!join_room" class="form-outline" style="margin-top: 3rem">
+    <textarea #msg class="form-control border border-primary" id="textAreaExample" rows="4"></textarea>
+    <label class="form-label" for="textAreaExample" >Enter a Message</label>
+    <button type="button"  (click)="sendMessage(msg)" class="btn btn-dark" style="color: white;" >Send</button>
+
+  </div>
+</div>
+
