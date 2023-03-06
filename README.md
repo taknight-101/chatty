@@ -26,7 +26,7 @@ Angular-front-end
 
 ```sh
 cd chatty-front/
-npm i 
+npm i --legacy-peer-deps
 npm start 
 ```
 

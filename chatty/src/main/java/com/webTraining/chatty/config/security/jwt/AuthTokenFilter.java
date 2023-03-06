@@ -3,6 +3,7 @@ package com.webTraining.chatty.config.security.jwt;
 import java.io.IOException;
 
 import com.webTraining.chatty.config.security.services.UserDetailsServiceImpl;
+import com.webTraining.chatty.repositories.ChatRoomsMembersRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +26,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
+  @Autowired
+  ChatRoomsMembersRepository chatRoomsMembersRepository ;
 
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
@@ -35,8 +38,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       String jwt = parseJwt(request);
       if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        Integer user_id = jwtUtils.getIdFromJwtToken(jwt) ;
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username );
         UsernamePasswordAuthenticationToken authentication =
             new UsernamePasswordAuthenticationToken(
                 userDetails,

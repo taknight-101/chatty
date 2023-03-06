@@ -80,7 +80,9 @@ public class UsersController {
 		var theUser = userRepository.findByUsername(loginRequest.getUsername());
 		if (theUser.isPresent() && jwtUtils.verifyHash(loginRequest.getPassword(), theUser.get().getPassword())) {
 			String jwt = jwtUtils.generateJwtToken(theUser.get());
-			return ResponseEntity.ok(new JwtResponse(jwt, theUser.get().getId(), theUser.get().getUsername()));
+		var test = theUser.get().getChatrooms().stream().map(cr -> cr.getId()).toList();
+
+			return ResponseEntity.ok(new JwtResponse(jwt, theUser.get().getId(), theUser.get().getUsername()  ,theUser.get().getChatrooms().stream().map(cr -> cr.getId()).toList()));
 		} else
 			throw new RuntimeException("Wrong user name or password");
 	}

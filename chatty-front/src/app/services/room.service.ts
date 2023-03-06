@@ -26,7 +26,6 @@ export class RoomService {
 
   createRoom(room) {
     let body = JSON.stringify(room);
-    // body = JSON.stringify({id : 1 , username : "angular guy" , password : " fuck hell yeah" })
     return this.http.post('/server/api/rooms', body, httpOptions);
   }
 

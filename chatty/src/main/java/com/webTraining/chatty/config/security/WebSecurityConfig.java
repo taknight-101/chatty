@@ -28,9 +28,9 @@ public class WebSecurityConfig {
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
-//  @Autowired
-//  private AuthEntryPointJwt unauthorizedHandler;
-//
+  @Autowired
+  private AuthEntryPointJwt unauthorizedHandler;
+
   @Bean
   public AuthTokenFilter authenticationJwtTokenFilter() {
     return new AuthTokenFilter();
@@ -59,21 +59,20 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
-//        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeHttpRequests().shouldFilterAllDispatcherTypes(false)
-        .requestMatchers("/api/users/login").permitAll()
-      .requestMatchers("/api/msgs/**").permitAll()
-        .requestMatchers("/api/users/signup").permitAll()
-            .requestMatchers("/api/users/joinRoom").permitAll()
-            .requestMatchers("/api/rooms/**").permitAll();
-
-//        .anyRequest().authenticated();
+            .requestMatchers("/api/users/signup").permitAll()
+            .requestMatchers("/api/users/login").permitAll()
+//      .requestMatchers("/api/msgs/**").permitAll()
+//            .requestMatchers("/api/users/joinRoom").permitAll()
+//            .requestMatchers("/api/rooms/**").permitAll()
+        .anyRequest().authenticated();
 
     http.authenticationProvider(authenticationProvider());
 
     //TODO: IDK what is this
-//    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }

@@ -33,10 +33,9 @@ export class SignupComponent implements OnInit {
   submitSignup() {
 
     if (this.signUpForm.valid) {
-      this.validMessage = "yeah yeah";
+      this.validMessage = "";
       this.signUpService.signUp(this.signUpForm.value).subscribe(
         data => {
-          console.log("DATA YA MAN" , data)
           this.signUpService.setSession(data)
           this.signUpForm.reset();
           this.router.navigate(['/rooms']);

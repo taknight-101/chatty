@@ -14,21 +14,23 @@ const routes: Routes = [
     redirectTo: '/login', pathMatch: 'full'
   },
   {
-    path: 'rooms',
-    component: HomeComponent
+    path: 'signup',
+    component: SignupComponent
   },
   {
     path: 'login',
     component: LoginComponent
   },
   {
-    path: 'signup',
-    component: SignupComponent
+    path: 'rooms',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
   },
+
   {
      path: 'rooms/:id',
      component: RoomComponent,
-    //  canActivate: [AuthGuard]
+     canActivate: [AuthGuard]
   },
   // {
   //   path: 'admin',

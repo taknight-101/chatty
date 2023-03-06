@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
       console.log(this.loginForm.value)
       this.loginService.login(this.loginForm.value).subscribe(
         data => {
+     
           
           this.loginService.setSession(data)
           this.loginForm.reset();

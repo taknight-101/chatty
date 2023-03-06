@@ -2,7 +2,13 @@ package com.webTraining.chatty.config.security.jwt;
 
 import java.util.Date;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.webTraining.chatty.models.Users;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
@@ -13,6 +19,9 @@ import io.jsonwebtoken.*;
 
 @Component
 public class JwtUtils {
+
+
+
 
 //  @Value("${storefront.app.jwtSecret}")
 //  private String jwtSecret;
@@ -67,6 +76,7 @@ private String JWT_secret = "top-secret" ;
     return null;
   }
 
+  // this method also checks for token expiration :)
   public boolean validateJwtToken(String authToken) {
     try {
       Jwts.parser().setSigningKey(JWT_secret).parseClaimsJws(authToken);
@@ -75,4 +85,28 @@ private String JWT_secret = "top-secret" ;
       return false;
     }
   }
+
+
+  // my method :: doesn't work
+//  public boolean isJWT_valid(String jwtString) {
+//    Date expiresAt = null ;
+//    try {
+//
+//        DecodedJWT decodedJWT = JWT.decode(jwtString);
+//         expiresAt = decodedJWT.getExpiresAt();
+//         var tmp = expiresAt.before(new Date());
+//
+//
+//
+//    }
+//    catch (JWTDecodeException e) {
+//
+//    }
+//
+//
+//    return expiresAt.before(new Date());
+//
+//
+//  }
+
 }
