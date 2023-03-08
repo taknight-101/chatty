@@ -1,32 +1,50 @@
-<div class="container w-50" style="margin-top: 20vh">
-
-
-  <form [formGroup]="signUpForm" (ngSubmit)="submitSignup()" novalidate>
-  
-    <div class="form-outline mb-4">
-      <label class="form-label" for="form2Example1">Username</label>
-      <input type="text" id="form2Example1" class="form-control border border-primary"  formControlName="username" required autofocus />
+<div style="text-align:center">
+   <h1 class="display-6">
+     <img
+    src="/assets/chatty_4x.webp" 
+     height="500rem"
+     alt="Chatty Logo"
+     loading="lazy"
+     style="margin-top: -1px; border-radius: 40%;"
      
+   />
+  </h1>
+ </div>
+<div class="container w-50" style="margin-top: 10vh">
+
+
+
+
+  <form *transloco="let t"  [formGroup]="signUpForm" (ngSubmit)="submitSignup()" novalidate>
+  
+    <div class="form-outline mb-4">
+      <label class="form-label" for="form2Example1">{{t('username')}}</label>
+      <input type="text" id="form2Example1" class="form-control border border-primary"  formControlName="username" required autofocus />
+      <span
+      *ngIf="!signUpForm.get('username')!.valid && signUpForm.get('username')!.touched"
+      class="help-block">{{t('username_prompt')}}</span>
     </div>
   
   
     <div class="form-outline mb-4">
-      <label class="form-label" for="form2Example2">Password</label>
+      <label class="form-label" for="form2Example2">{{t('password')}}</label>
       <input type="password" id="form2Example2" class="form-control border border-primary"  formControlName="password" required autofocus />
-   
+      <span
+      *ngIf="!signUpForm.get('password')!.valid && signUpForm.get('password')!.touched"
+      class="help-block">{{t('password_prompt')}}</span>
     </div>
   
   
   
   
-    <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+    <button type="submit" class="btn btn-primary btn-block mb-4">{{t('signup')}}</button>
   
   
     <div class="text-center">
-      <p>Already a member? 
+      <p>{{t('already_a_member?')}}
       
         <a [routerLink]="['/login']" >
-          Sign in
+          {{t('signin')}}
         </a>
   
       </p>

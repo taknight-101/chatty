@@ -19,6 +19,13 @@ public class JwtResponse {
     this.chat_rooms_id = chat_rooms_id ;
   }
 
+  public JwtResponse( int id, String username, List<Integer> chat_rooms_id) {
+    this.id = id;
+  
+    this.username = username;
+    this.chat_rooms_id = chat_rooms_id ;
+  }
+
   public List<Integer> getChat_rooms_id() {
     return chat_rooms_id;
   }

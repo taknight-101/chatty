@@ -1,9 +1,13 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../services/room.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +21,7 @@ export class SignupComponent implements OnInit {
   bikeform: FormGroup;
   validMessage: string = "";
 
-  constructor(private signUpService :AuthService ,private router : Router) { }
+  constructor(private signUpService :AuthService ,private router : Router , private toastr: ToastrService) { }
 
   ngOnInit() {
     this.signUpForm = new FormGroup({
@@ -42,7 +46,8 @@ export class SignupComponent implements OnInit {
           return true;
         },
         error => {
-          return Observable.throw(error);
+          this.toastr.error(error.error.message, 'Server Error');
+          
         }
       )
     } else {

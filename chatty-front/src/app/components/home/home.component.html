@@ -1,17 +1,21 @@
-<div class="container">
+<div  *transloco="let t"  class="container mt-4">
   <form [formGroup]="roomForm" (ngSubmit)="submitRegistration()" novalidate>
     <div *ngIf="validMessage != ''">
       <h3 class="has-info">{{validMessage}}</h3>
     </div>
     <div class="form-group">
-      <label>Room Name</label>
-      <input type="text" class="form-control" formControlName="name" required autofocus/>
+      <label>{{t('room_name')}}</label>
+      <input type="text" class="form-control" formControlName="name" required />
+      <span
+      *ngIf="!roomForm.get('name')!.valid && roomForm.get('name')!.touched"
+    class="help-block">{{t('room_name_prompt')}}</span>
+
     </div>
 
     <div class="form-group">
-      <label>Room Description</label>
+      <label>{{t('room_desc')}}</label>
    
-      <textarea class="form-control"  formControlName="description" required autofocus rows="10"></textarea>
+      <textarea class="form-control"  formControlName="description"   rows="10"></textarea>
     </div>
 
     
@@ -46,24 +50,29 @@
       <input type="text" class="form-control" formControlName="purchaseDate" required/>
     </div> -->
 
-    <button type="submit" class="btn btn-primary" >Create</button>
+    <button type="submit" class="btn btn-primary" [disabled] ="!roomForm.get('name')!.valid">{{t('create')}}</button>
   </form>
 
 
-  <h3 class="mt-4">Existing Rooms...</h3>
+  <h3 class="mt-4">{{t('existing_rooms')}}</h3>
 
 
+<div class="scrollbar scrollbar-info"> 
+  <div class="force-overflow">
+  <div  *ngFor="let room of rooms"class="list-group list-group-light  ">
 
-  <div class="list-group list-group-light">
+  <a  routerLink={{room.id}}  class="list-group-item list-group-item-action px-3 border-0 mt-4 ripple d-flex justify-content-between align-items-start ">{{room.name}} {{room.description ? "| " + room.description : ""}}
 
-  <a *ngFor="let room of rooms" routerLink={{room.id}}  class="list-group-item list-group-item-action px-3 border-0 mt-2 ripple">{{room.name}} | {{room.description}}</a>
+   
+ 
+  </a>
 
-  <!-- <a href="#" class="list-group-item list-group-item-action px-3 border-0 ripple">A second link item with
-    a ripple</a>
-  <a href="#" class="list-group-item list-group-item-action px-3 border-0 ripple">A third link item with
-    a ripple</a>
-  <a href="#" class="list-group-item list-group-item-action px-3 border-0 ripple">A fourth link item with
-    a ripple</a> -->
+  <button type="button" (click)="deleteRoom(room.id)" class="btn btn-danger" style="color: white;" >{{t('delete_room')}}</button>
+
+</div>
+
+</div>
+
 </div>
 
 </div>

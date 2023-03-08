@@ -1,7 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../services/room.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +17,10 @@ export class HomeComponent implements OnInit {
   rooms : any ; 
   roomForm : FormGroup ; 
 
-  bikeform: FormGroup;
+ 
   validMessage: string = "";
 
-  constructor(private roomService :RoomService) { }
+  constructor(private roomService :RoomService , private auth :AuthService , private http:HttpClient) { }
 
   ngOnInit() {
 
@@ -29,14 +34,14 @@ export class HomeComponent implements OnInit {
         return true;
       },
       error => {
-        return Observable.throw(error);
+        // return Observable.throw(error);
       }
     )
 
     this.roomForm = new FormGroup({
 
       name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      description: new FormControl('' , null),
 
     })
 
@@ -53,7 +58,7 @@ export class HomeComponent implements OnInit {
   }
 
   submitRegistration() {
-
+    console.log(this.roomForm)
     if (this.roomForm.valid) {
       this.validMessage = "Your Room has been craeted. Invite & Talk!";
       console.log(this.roomForm.value)
@@ -64,12 +69,33 @@ export class HomeComponent implements OnInit {
           return true;
         },
         error => {
-          return Observable.throw(error);
+          // return Observable.throw(error);
         }
       )
     } else {
       this.validMessage = "Please fill out the form before submitting!";
     }
+  }
+
+  
+  deleteRoom(room_id){
+ 
+    const {access_token, user_id} = this.auth.getSession() 
+   
+    return this.http.get('/server/api/msgs/deleteRoom/' + room_id, {headers: new HttpHeaders().set('Authorization', 'Bearer ' + access_token).set('Content-Type' , 'application/json')} ).subscribe(
+      (data : any) => {
+        let current_rooms = JSON.parse(localStorage.getItem("chat_rooms_id"))
+     
+        this.rooms = this.rooms.filter(r => r.id != room_id); 
+        localStorage.setItem("chat_rooms_id", JSON.stringify((current_rooms as any[]).filter( r => r != room_id) ))
+       
+     
+        return true;
+      },
+      error => {
+        // return Observable.throw(error);
+      }
+    );
   }
 
 }

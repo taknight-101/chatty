@@ -1,9 +1,14 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../services/room.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-login',
@@ -16,7 +21,13 @@ export class LoginComponent implements OnInit {
 
   validMessage: string = "";
 
-  constructor(private loginService :AuthService , private router : Router) { }
+  localesList = [
+    { code: 'en-US', label: 'English' },
+    { code: 'ar', label: 'Arabic' }
+  ]
+
+
+  constructor(private loginService :AuthService , private router : Router , private toastr: ToastrService  ) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -30,7 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   submitLogin() {
-
+   
     if (this.loginForm.valid) {
       this.validMessage = "Your Room has been craeted. Invite & Talk!";
       console.log(this.loginForm.value)
@@ -45,7 +56,8 @@ export class LoginComponent implements OnInit {
           return true;
         },
         error => {
-          return Observable.throw(error);
+    
+          this.toastr.error(error.error.message, 'Server Error');
         }
       )
     } else {
@@ -53,4 +65,14 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  
+
+  // toastMe(){
+
+  //     this.toastr.error('Hello world!', 'Toastr fun!');
+    
+   
+  // }
+  
 }
+

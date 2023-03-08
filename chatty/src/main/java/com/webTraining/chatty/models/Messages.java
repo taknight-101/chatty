@@ -1,10 +1,13 @@
 package com.webTraining.chatty.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.sql.Date;
+
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -14,6 +17,9 @@ public class Messages {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+
+
+    @Transient
     private String from_user_username ;
 
     public String getFrom_user_username() {
@@ -24,19 +30,17 @@ public class Messages {
         this.from_user_username = from_user_username;
     }
 
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="id")
 	private MessageTypes type;
-//
-//    @ManyToOne
-//    @JoinColumn(name ="from_user")
+
+
+
+    @Transient
     private Integer from_user ;
-//    @ManyToOne
-//    @JoinColumn(name ="to_user")
     private Integer to_user ;
 
-
-    @Column(name="room_id")
+    @Column(name = "room_id")
     private Integer roomId ;
 
     private String content ;
@@ -44,6 +48,61 @@ public class Messages {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
     private Date created_at;
 
+    public Integer getFrom_user() {
+        return from_user;
+    }
+
+    public void setFrom_user(Integer from_user) {
+        this.from_user = from_user;
+    }
+
+    public Integer getTo_user() {
+        return to_user;
+    }
+
+    public void setTo_user(Integer to_user) {
+        this.to_user = to_user;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "from_user")
+    private Users fromUser ;
+
+    //TODO: use JPA for proper cascade delete :)
+//    @ManyToOne
+//    @JoinColumn(name = "room_id")
+//    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+//    private ChatRooms chatRoom ;
+
+
+
+    public Users getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(Users fromUser) {
+        this.fromUser = fromUser;
+    }
+//
+//    @ManyToOne
+//    @JoinColumn(name = "to_user")
+//    private Users to_user ;
+//
+//    public Users getFrom_user() {
+//        return from_user;
+//    }
+//
+//    public void setFrom_user(Users from_user) {
+//        this.from_user = from_user;
+//    }
+//
+//    public Users getTo_user() {
+//        return to_user;
+//    }
+//
+//    public void setTo_user(Users to_user) {
+//        this.to_user = to_user;
+//    }
 //    @ManyToOne
 //    @JoinColumn(name ="from_user")
 //    private Users from_user ;
@@ -85,29 +144,8 @@ public class Messages {
         this.created_at = created_at;
     }
 
-    public Integer getFrom_user() {
-        return from_user;
-    }
 
-    public void setFrom_user(Integer from_user) {
-        this.from_user = from_user;
-    }
 
-    public Integer getTo_user() {
-        return to_user;
-    }
-
-    public void setTo_user(Integer to_user) {
-        this.to_user = to_user;
-    }
-
-//    public Integer getRoom_id() {
-//        return room_id;
-//    }
-//
-//    public void setRoom_id(Integer room_id) {
-//        this.room_id = room_id;
-//    }
 
     public Integer getRoomId() {
         return roomId;
@@ -117,21 +155,6 @@ public class Messages {
         this.roomId = roomId;
     }
 
-//    public Users getFrom_user() {
-//        return from_user;
-//    }
-//
-//    public void setFrom_user(Users from_user) {
-//        this.from_user = from_user;
-//    }
-//
-//    public Users getTo_user() {
-//        return to_user;
-//    }
-//
-//    public void setTo_user(Users to_user) {
-//        this.to_user = to_user;
-//    }
 }
 
 

@@ -6,5 +6,16 @@ public enum MSG_TYPES {
     AUDIO,
     PHOTO,
     URL ,
-     NOT_IMPLEMENTED
+     NOT_IMPLEMENTED ;
+
+    public static MSG_TYPES fromInteger(int x) {
+        switch(x) {
+            case 0:
+                return TEXT;
+            case 1:
+                return VIDEO;
+        }
+        return null;
+    }
+
 }

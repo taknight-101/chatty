@@ -15,7 +15,9 @@ import java.util.Optional;
 
 public interface ChatRoomsMembersRepository extends JpaRepository<ChatRoomsMembers, Integer> {
 
-    public Optional<ChatRoomsMembers> findByMemberId(Integer member_id);
+     Optional<ChatRoomsMembers> findByMemberIdAndRoomId(Integer member_id , Integer room_id);
+     Optional<List<ChatRoomsMembers>> findByRoomId( Integer room_id);
+
 
 //    @Query("select crm.member_id from ChatRoomMembers crm where crm.id = :user_id")
 //    List<Object> get_member_rooms( @Param("user_id")  Integer user_id);

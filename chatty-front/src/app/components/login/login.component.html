@@ -1,32 +1,66 @@
-<div class="container w-50" style="margin-top: 20vh">
+
+<!-- 
+
+<section>
+  <article>
+    <h1 i18n>Under Construction!</h1>
+    <p i18n>This page is under construction.</p>
+  </article>
+</section> -->
 
 
-<form [formGroup]="loginForm" (ngSubmit)="submitLogin()" novalidate>
+
+
+
+
+
+<div style="text-align:center">
+   <h1 class="display-6">
+     <img
+    src="/assets/chatty_4x.webp" 
+     height="500rem"
+     alt="Chatty Logo"
+     loading="lazy"
+     style="margin-top: -1px; border-radius: 40%;"
+ 
+   />
+  </h1>
+ </div>
+<div class="container w-50" style="margin-top: 10vh">
+
+
+   <!-- <button type="button" (click)="toastMe()">test</button> -->
+  
+<form *transloco="let t"  [formGroup]="loginForm" (ngSubmit)="submitLogin()" novalidate>
 
   <div class="form-outline mb-4">
-    <label class="form-label" for="form2Example1">Username</label>
+    <label class="form-label" for="form2Example1">  {{t('username')}}</label>
     <input type="text" id="form2Example1" class="form-control border border-primary"  formControlName="username" required autofocus />
+    <span
+              *ngIf="!loginForm.get('username')!.valid && loginForm.get('username')!.touched"
+              class="help-block">{{t('username_prompt')}}</span>
    
   </div>
 
 
   <div class="form-outline mb-4">
-    <label class="form-label" for="form2Example2">Password</label>
+    <label class="form-label" for="form2Example2"> {{t('password')}}</label>
     <input type="password" id="form2Example2" class="form-control border border-primary"  formControlName="password" required autofocus />
- 
+    <span
+    *ngIf="!loginForm.get('password')!.valid && loginForm.get('password')!.touched"
+    class="help-block">{{t('password_prompt')}}</span>
   </div>
 
 
 
-
-  <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+  <button type="submit" class="btn btn-primary btn-block mb-4"> {{t('signin')}}</button>
 
 
   <div class="text-center">
-    <p>Not a member? 
+    <p>{{t('not_a_member?')}}
     
       <a [routerLink]="['/signup']" >
-        Register
+        {{t('register')}}
       </a>
 
     </p>

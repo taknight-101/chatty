@@ -1,6 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -26,7 +29,9 @@ export class RoomService {
 
   createRoom(room) {
     let body = JSON.stringify(room);
-    return this.http.post('/server/api/rooms', body, httpOptions);
+    let token = localStorage.getItem('access_token');
+
+    return this.http.post('/server/api/rooms', body,  {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token).set( 'Content-Type','application/json') });
   }
 
 }

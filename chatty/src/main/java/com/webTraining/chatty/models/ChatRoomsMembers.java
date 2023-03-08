@@ -13,7 +13,8 @@ public class ChatRoomsMembers {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-    private Integer room_id ;
+    @Column(name="room_id")
+    private Integer roomId ;
 
 
     @Column(name="member_id")
@@ -28,11 +29,11 @@ public class ChatRoomsMembers {
     }
 
     public Integer getRoom_id() {
-        return room_id;
+        return roomId;
     }
 
     public void setRoom_id(Integer room_id) {
-        this.room_id = room_id;
+        this.roomId = room_id;
     }
 
     public Integer getMember_id() {

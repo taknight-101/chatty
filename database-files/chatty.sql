@@ -9,15 +9,13 @@ CREATE TABLE "chatty"."users" (
 
 CREATE TABLE "chatty"."message_types" (
   "id" bigserial PRIMARY KEY,
-  "type_name" varchar NOT NULL,
-  "code" int NOT NULL
+  "type_name" varchar NOT NULL
 );
 
 CREATE TABLE "chatty"."messages" (
   "id" bigserial,
   "type" bigint,
   "from_user" bigint,
-  "from_user_username" varchar,
   "to_user" bigint,
   "content" varchar,
   "room_id" bigint,
@@ -34,7 +32,8 @@ CREATE TABLE "chatty"."chat_rooms" (
 CREATE TABLE "chatty"."chat_rooms_members" (
   "id" bigserial PRIMARY KEY,
   "room_id" bigint,
-  "member_id" bigint
+  "member_id" bigint,
+  "joined_at" timestamp
 );
 
 CREATE INDEX ON "chatty"."messages" ("from_user");

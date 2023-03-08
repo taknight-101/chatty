@@ -1,7 +1,48 @@
-<div style="text-align:center">
-  <h1 class="display-6">
-       Chatty: Where you can find good people to talk to. 
- </h1>
-</div>
 
-<router-outlet></router-outlet>
+
+
+
+<!-- Navbar -->
+<nav *transloco="let t" class="navbar navbar-expand-lg "  style="background-color: #e3f2fd;">
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Navbar brand -->
+      
+
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" style="font-size: 1.5rem;" > <span >{{ t('title') }} </span> </a>
+         
+          </li>
+        </ul>
+     
+      
+        <div class="d-flex align-items-center">
+        
+            <button  *ngIf="is_loggedIn" type="button" class="btn btn-primary me-3" (click)="logout()">
+             Logout
+            </button>
+
+            <button type="button" (click)="changeLang(lang)" class="btn btn-primary mx-1" *ngFor="let lang of availableLangs">
+
+              {{lang}}
+              
+              </button> 
+           
+          </div>
+
+     
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+
+
+
+<router-outlet (activate)='onActivate($event)'></router-outlet>

@@ -1,6 +1,6 @@
 package com.webTraining.chatty.models;
 
-import java.math.BigDecimal;
+
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import org.apache.catalina.User;
+
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

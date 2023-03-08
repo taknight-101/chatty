@@ -1,0 +1,19 @@
+{
+    "title": "Chatty: Where you can find good people to talk to.",
+    "username": "Username" , 
+    "password" : "Password" , 
+    "signin" : "sign in" , 
+    "signup" :"signup", 
+    "not_a_member?" :"Not a member?", 
+    "register" :"Register",
+    "already_a_member?" :"Already a member?", 
+    "username_prompt"  : "Please enter a username!", 
+    "password_prompt" : "Please enter a password!",
+    "existing_rooms" : "Existing Rooms..." , 
+    "room_name" : "Room Name" , 
+    "room_desc" :"Room Description",
+    "create" :"Create", 
+    "room_name_prompt" : "Please enter a Room Name!", 
+    "delete_room" : "Delete Room" ,
+    "send" : "send"
+  }

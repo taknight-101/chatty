@@ -1,11 +1,23 @@
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../services/room.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 
+enum MSG_TYPES {
+  TEXT ,
+  VIDEO,
+  AUDIO,
+  PHOTO,
+  URL ,
+   NOT_IMPLEMENTED
+}
 
 
 const httpOptions = {
@@ -44,6 +56,7 @@ export class RoomComponent implements OnInit {
   roomForm : FormGroup ; 
   realTime : boolean = true ; 
   room_id  ;
+  value ;
 
   is_joiend = false ; 
 
@@ -68,8 +81,9 @@ export class RoomComponent implements OnInit {
 
 
      this.room_id = this.route.snapshot.paramMap.get('id')
-      
-     this.is_joiend = JSON.parse(chat_rooms_id).some( (element) => element === +this.room_id) ;
+    
+     console.log("bad parse" , chat_rooms_id)
+     this.is_joiend = chat_rooms_id != "null" ? JSON.parse(chat_rooms_id).some( (element) => element === +this.room_id) : false ;
    
     
     if ( !this.room_id ) { this.router.navigate(['/']) }
@@ -96,7 +110,7 @@ export class RoomComponent implements OnInit {
         return true;
       },
       error => {
-        return Observable.throw(error);
+        // return Observable.throw(error);
       }
     )
 
@@ -110,12 +124,14 @@ export class RoomComponent implements OnInit {
       console.log(this.roomForm.value)
       this.roomService.createRoom(this.roomForm.value).subscribe(
         data => {
-          
+        
+     
+
           this.roomForm.reset();
           return true;
         },
         error => {
-          return Observable.throw(error);
+          // return Observable.throw(error);
         }
       )
     } else {
@@ -130,8 +146,12 @@ export class RoomComponent implements OnInit {
     const {access_token} = this.auth.getSession() 
 
     return this.http.post('/server/api/users/joinRoom', body , {headers: new HttpHeaders().set('Authorization', 'Bearer ' + access_token).set('Content-Type' , 'application/json')}).subscribe(
-      data => {
+      (data : any )=> { 
         
+        localStorage.setItem("chat_rooms_id" , JSON.stringify(data.chat_rooms_id))
+
+        this.is_joiend =  data.chat_rooms_id.some( (element) => element === +this.room_id);
+
         this.join_room = false 
         return true;
       },
@@ -144,7 +164,7 @@ export class RoomComponent implements OnInit {
 
   sendMessage(message){
     
-    let msg = {content : message.value , roomId : this.room_id , type : "text" ,  from_user :localStorage.getItem("user_id") , created_at : new Date().toISOString()}
+    let msg = {content : message.value , roomId : this.room_id , type : MSG_TYPES.TEXT ,  from_user :localStorage.getItem("user_id") , created_at : new Date().toISOString()}
     let body = JSON.stringify(msg)
 
     message.value= "" 
@@ -160,13 +180,37 @@ export class RoomComponent implements OnInit {
         data.created_at = new_data_format.substring(0, new_data_format.length - 5);   
 
         this.messages.push(data)
+     
         return true;
       },
       error => {
-        return Observable.throw(error);
+        // return Observable.throw(error);
       }
     );
 
   }
+
+  leaveRoom(){
+    const {access_token, user_id} = this.auth.getSession() 
+   
+    return this.http.get('/server/api/msgs/leaveRoom/' + user_id + '/' + this.room_id, {headers: new HttpHeaders().set('Authorization', 'Bearer ' + access_token).set('Content-Type' , 'application/json')} ).subscribe(
+      (data : any) => {
+        let current_rooms = JSON.parse(localStorage.getItem("chat_rooms_id"))
+     
+        localStorage.setItem("chat_rooms_id", JSON.stringify((current_rooms as any[]).filter( r => r != this.room_id) ))
+        this.router.navigate(['/rooms'])
+     
+        return true;
+      },
+      error => {
+        // return Observable.throw(error);
+      }
+    );
+  }
+
+  doRealTime(){
+   //TODO 
+  }
+
 
 }
